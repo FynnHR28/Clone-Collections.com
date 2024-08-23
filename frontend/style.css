@@ -1,0 +1,218 @@
+
+/*fonts*/
+@font-face {
+    font-family: 'Fragment';
+    src: url('../Resources/Fragmentcore.otf');
+}
+@font-face {
+    font-family: 'Moderustic' ;
+    src: url('../Resources/Moderustic/Moderustic-VariableFont_wght.ttf');
+}
+
+
+body{
+    background-color: rgb(57, 52, 52);
+    min-height: 100vh;
+}
+
+#header{
+    width: 100%;
+    height: 4rem;
+    font-family: 'Fragment';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:rgb(199, 195, 195);
+    font-size: 1.3em;
+    text-shadow:2px 4px 1.5px black ;
+
+}
+
+.endgame-box{
+    position: absolute;
+    width: 20%;
+    right:37vw;
+    top:25%;
+    display: block;
+    align-items: center;
+    z-index: 10;
+    background-color: rgba(11, 11, 11, 0.95);
+    padding:1rem;
+    color: rgb(197, 140, 34);
+    border: 3px solid rgb(197, 140, 34);
+    border-radius: 10px;
+    animation: grow-in 0.2s ease-in;
+    
+}
+#exit-btn{
+    position:absolute;
+    right:0;
+    top: 0.3rem;
+    background-color: rgb(36, 53, 68,0);
+    border: none;
+    color: white;   
+}
+.new-game-btn{
+    border-radius: 10px;
+    background-color: rgb(14, 14, 14);
+    border: 4px solid rgb(197, 140, 34);
+    color: rgb(197, 140, 34);
+}
+.new-game-btn:hover{
+    background-color:rgb(197, 140, 34) ;
+    color: black;
+}
+#word-display{
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+#game-container{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+#game-display{
+    width: 25rem; 
+   
+    padding: 0px;  
+    display: flex;  
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.lingo-leap-board{
+    margin-bottom: 0.7rem;
+}
+
+.guess-row{
+    width: 100%;
+    height: 3.5rem;
+    display: flex;
+    margin-top: 0.8rem;
+   
+    gap:0.4rem;       
+}
+
+.vibrate{
+    animation: vibrate 0.3s ease-in ;
+}
+
+.letter-box{
+    border: 3px solid rgb(136, 130, 130);
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 2.5em;
+    font-family: 'Moderustic';
+    display: flex;
+    justify-content: center;
+    color:white;
+    border-radius: 5px;  
+    perspective: 1000px;
+   
+}
+.letter-box.active{
+    animation: flip 0.6s ease forwards; /* 'forwards' keeps the final state */
+    animation-fill-mode: forwards; /* Ensure the final state persists */
+}
+
+.alert-box{
+    text-align: center;
+    position: absolute;
+    top:2rem;
+    width: 100px;
+    background-color: rgb(18, 16, 16);
+    padding: 0.5rem;
+    border-radius: 10px;
+    color: rgb(182, 182, 32);
+    animation: slide-in-and-disappear 0.2s ease-out;   
+}
+
+
+.keyBoard{
+   margin-top: 0.4rem;
+}
+.keyrow{
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+}
+.key{
+    margin-top: 0.2rem;
+    background-color: rgb(120, 118, 118);
+    border: 2px solid black;
+    color: white;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 2rem;
+    height: 2rem;
+    -webkit-text-stroke-width: 200%;
+    text-align: center;
+    font-family: 'Moderustic';
+    border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+/* animations */
+@keyframes slide-in-and-disappear {
+    0%{ 
+    
+        transform: translate(-100%);
+    }
+    
+    100%{
+        transition: translate(100%);
+        
+        
+    }
+    
+    
+}
+@keyframes vibrate {
+    0% {
+        transform: translate(5px, 0px);
+    }
+    50%{
+        transform: translate(-10px);
+    }
+    100%{
+        transform: translate(5px);
+    }
+}
+
+@keyframes grow-in{
+    0%{
+        transform: scale(0%);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(100%);
+        opacity: 1;
+    }
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0);
+    }
+    50% {
+        transform: rotateX(90deg);
+         /* Change this to the color you want */
+         background-color: transparent;
+        color: transparent; /* Make the letter invisible at halfway point */
+    }
+    100% {
+        transform: rotateX(180deg);
+        transform: rotateX(9deg);
+        /* Final background color */
+        background-color: var(--flip-color);
+    }
+}
