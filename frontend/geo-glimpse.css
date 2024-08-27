@@ -1,0 +1,207 @@
+/*FONTS*/
+
+@font-face {
+    font-family: 'Oswald' ;
+    src: url('../Resources/Oswald/static/Oswald-Medium.ttf');
+}
+
+
+body{
+    font-family: 'Oswald';
+    padding: 0px;
+    margin: 0;
+}
+#header{
+    background: linear-gradient(to bottom, #033f63 70%, #F8F6F5 100%) ;
+    color: #fedc97;
+    text-shadow: 1px 1px rgb(250, 249, 246);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    
+}
+
+.center-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+/* purely for looks*/
+.background-img{
+    position:absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../Resources/geobackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -10;
+    height: 100vh;
+}
+
+#game-container{
+    position: relative;
+    top: 1rem;
+}
+
+
+
+
+/* For displaying country data nicely */
+#data-display{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    
+}
+#target-country-data{
+    border-radius: 5px;
+    background-color:#28666e ;
+    padding: 10px;  
+    text-align: center;
+}
+
+
+/* each line in the data display*/
+.data-point{
+    color: white;
+    padding: 5px;
+    text-align: left;
+   
+    border-radius: 7px;
+    margin-bottom: 0.3rem;
+}
+.coat-of-arms{
+    height: 70px;
+}
+
+
+
+
+
+
+
+
+/* All for the search bar and country list*/
+
+#make-a-guess-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;   
+}
+
+.search-container{
+    width: 60%; 
+    position: relative; 
+    max-width: 400px;  
+}
+.search-wrapper{
+    position: relative;
+}
+
+#search{
+    width: 100%;  
+    padding: 5px;
+    font-size: 1.1em;
+    border: 3px solid #fedc97;
+    border-radius: 5px;
+
+    color: #033f63;
+}
+
+#submit-guess{
+    background-color: white ;
+    color:orange;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.2s;
+    position: relative;
+    height: 2rem;  
+    top: 0.1rem;
+}
+#submit-guess:hover{
+    background-color: orange;
+    color: white;
+    transform: scale(1.3);
+    cursor: pointer;
+    
+}
+#country-list{
+    width: 100%;
+    max-height: 0px;
+    overflow: scroll;  
+    transition: 0.3s;
+    position: absolute;  
+}
+
+#country-list.active{
+    max-height: 200px;
+}
+
+.country-elem{
+    border-bottom: 2px solid rgba(118, 130, 200, 0.6);
+    background-color: aliceblue;
+    border-radius: 4px;
+    padding: 5px;
+    color:#033f63;
+    width: 100%;   
+}
+
+.country-elem:hover{
+    background-color: #28666e;
+    cursor: pointer;
+    color: #fedc97;
+}
+
+.hidden{
+    display: none;
+}
+
+/*For the guesses*/
+#guesses-container{
+    width: 60%;
+    padding: 5px;  
+    max-width: 500px; 
+
+}
+.guess{
+    background-color:#fedc97 ;
+    color:#033f63;
+    padding: 8px;
+    border: 4px solid;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+
+    border-image: linear-gradient(to right,#7c9885,#fedc97 ) 1
+
+   
+}
+.used{
+    background-color: rgba(145, 227, 168, 0.3);
+    justify-content: space-between;
+}
+
+/*Rotate those guess arrow directions!*/
+.E{transform: rotate(90deg);}
+
+.S{ transform: rotate(180deg);}
+
+.W{transform: rotate(270deg);}
+
+.NE{transform: rotate(45deg);}
+
+.SE{transform: rotate(135deg);}
+
+.SW{transform: rotate(225deg);}
+
+.NW{transform: rotate(315deg);}
+
+
+
+

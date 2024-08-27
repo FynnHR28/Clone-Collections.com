@@ -1,0 +1,183 @@
+import express, { response } from 'express';
+import { request } from 'http';
+
+const app = express();
+
+//middleware, a middle process between many different functions
+
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+//allows you to listen to a port for incoming requests, this starts up the express server 
+// a specific port
+
+//mock database to testing
+const users = [{id: 1, username: "fynn"}, {id: 2, username: "dylan"},
+    {id: 3, username: "diana"}, {id: 4, username: "scott"}
+]
+
+
+// defining a route
+app.get('/', (request, response) => {
+    //two args, request & response objects
+    response.status(200).send({msg: "Hello!"});
+});
+
+//industry standard to define route with /api/routeName
+//this is an emample of a GET request using query params
+app.get('/api/users', (request, response) => {
+    //query params are passed at end of route with ?key=keyName&value=
+    //console.log(request.query);
+    const {
+        query : {filter, value},
+    } = request; // destructuring query to get filter and value
+    //if both query params not present, just return all users 
+    if(filter && value){
+        response.send(users.filter((user) => {
+            //selects the apporpriate key from user passed by the query param filter
+            //this filters by username including the value
+            return user[filter].includes(value);
+        }));
+    } 
+    else{
+        return response.send(users);
+    }
+    
+    
+});
+
+//route parameters (the :id part) if you request with an id you'll return just the user with the appropriate id
+app.get('/api/users/:id', (request, response) => {
+    
+    const parseId = parseInt(request.params.id);
+    if (isNaN(parseId)){
+        //400 is a bad request
+        return response.status(400).send({msg: 'Bad Request. Invalid ID'});
+    }
+    let userIndex = -1;
+    for(let i = 0; i < users.length; i ++){
+        if(users[i].id === parseId){
+            userIndex = i;
+            break;
+        }
+    }
+    if (userIndex === -1) return response.sendStatus(404); // 404 Error not found
+
+    return response.status(200).send(users[userIndex]);
+});
+
+//POST request example, supposed to return a 201
+app.post('/api/users', (request,response) => {
+    
+    //console.log(request.body);
+    const {body} = request;
+    // the '...' is the spreader operator, as all fields from one object to another
+    const newUser = { id : users[users.length - 1].id + 1, ...body};
+    users.push(newUser);
+    return response.status(201).send(newUser);
+});
+
+//PUT vs PATCH, put requests update the status of the entire object (user), where
+// a patch would just modify one aspect (username)
+//DELETE deletes something from the database
+
+//PUT request (you can use the same path in these app.calls if the request methods (put,patch, etc) are different )
+//updates all fields EXCEPT id for the user with the id equal to the :id route parameter if present
+//if you leave a field out of put request body that field will be removed from existing user
+app.put('/api/users/:id', (request,response) => {
+    const {
+        body,
+        params: {id},
+    } = request;
+
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return response.sendStatus(400); //400 is bad request
+    
+    let userIndex = -1;
+    for(let i = 0; i < users.length; i ++){
+        if(users[i].id === parsedId){
+            userIndex = i;
+            break;
+        }
+    }
+
+    if (userIndex === -1) return response.sendStatus(404); // 404 Error not found
+
+    //put request will update entire object
+    users[userIndex] = {id: parsedId, ...body}; //unpacks all fields from body and adds it to the object
+
+    return response.sendStatus(200);
+});
+
+
+//PATCH request
+app.patch('/api/users/:id', (request, response) => {
+    const {
+        body,
+        params: {id},
+    } = request;
+
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return response.sendStatus(400); //400 is bad request
+    
+    let userIndex = -1;
+    for(let i = 0; i < users.length; i ++){
+        if(users[i].id === parsedId){
+            userIndex = i;
+            break;
+        }
+    }
+    if (userIndex === -1) return response.sendStatus(404); // 404 Error not found
+
+    //this will add all the existing fields back to object and overwrite any fields
+    //passed by request body, big difference here is that any ommitted fields in body
+    //will still be in the user object in a patch request.
+    users[userIndex] = {...users[userIndex], ...body}
+
+});
+
+//DELETE request
+app.delete('/api/users/:id', (request,response) => {
+    //delete requests usually dont have a body
+    const {
+        params: {id},
+    } = request;
+
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return response.sendStatus(400); //400 is bad request
+    
+    let userIndex = -1;
+    for(let i = 0; i < users.length; i ++){
+        if(users[i].id === parsedId){
+            userIndex = i;
+            break;
+        }
+    }
+    if (userIndex === -1) return response.sendStatus(404); // 404 Error not found
+
+
+    //splice removes element at index position passed
+    users.splice(userIndex,1);
+    return response.sendStatus(200);
+
+
+})
+
+
+
+
+//call back function used to confirm that server has started on port
+app.listen(PORT, () => {
+    console.log(`Running on ${PORT}`);
+});
+
+
+
+
+
+
+
+//localhost:3000
+// servers havae different routes that you can access
+// accessed by localhost:port/routeName or when deployed port is not displayed
+// you define the routes on your server and then allow clients to make requests to those routes
